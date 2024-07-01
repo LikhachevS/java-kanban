@@ -1,3 +1,8 @@
 public class Subtask extends Task {
-    int epicId;
+    private int epicId;
+
+    public int getEpicId() {
+        return epicId;
+    }
+
 }

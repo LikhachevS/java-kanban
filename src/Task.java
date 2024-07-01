@@ -1,7 +1,22 @@
 public class Task {
-    String title;
-    String description;
-    int id;
-    Status status;
+    private String title;
+    private String description;
+    public int id;
+    private Status status;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }
