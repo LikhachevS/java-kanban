@@ -1,11 +1,17 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TaskManager {
-    private int nextId = 1;
-    HashMap<Integer, Task> simpleTasks;
-    HashMap<Integer, Subtask> subtasks;
-    HashMap<Integer, Epic> epics;
+    private int nextId;
+    private HashMap<Integer, Task> simpleTasks;
+    private HashMap<Integer, Subtask> subtasks;
+    private HashMap<Integer, Epic> epics;
+
+    public TaskManager() {
+        simpleTasks = new HashMap<>();
+        subtasks  = new HashMap<>();
+        epics = new HashMap<>();
+        nextId = 1;
+    }
 
     // Создание задач
     public void add(Task simpleTask) {
@@ -48,7 +54,6 @@ public class TaskManager {
     public void update(Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
         Epic epic = epics.get(subtask.getEpicId());
-        epic.addSubtaskId(subtask.getId());
         updateStatusOfEpic(epic);
     }
 
@@ -128,7 +133,7 @@ public class TaskManager {
 
     public void deleteSubtaskById(int id) {
         Epic epic = epics.get(getSubtaskById(id).getEpicId());
-        epic.getSubtaskIds().remove(id);
+        epic.getSubtaskIds().remove((Integer) id);
         subtasks.remove(id);
         updateStatusOfEpic(epic);
     }
