@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TaskManager {
@@ -8,7 +9,7 @@ public class TaskManager {
 
     public TaskManager() {
         simpleTasks = new HashMap<>();
-        subtasks  = new HashMap<>();
+        subtasks = new HashMap<>();
         epics = new HashMap<>();
         nextId = 1;
     }
@@ -30,14 +31,14 @@ public class TaskManager {
 
     public void add(Subtask subtask) {
         if (epics.containsKey(subtask.getEpicId())) {
-        subtask.setId(nextId);
-        nextId++;
-        subtasks.put(subtask.getId(), subtask);
-        subtask.setStatus(Status.NEW);
+            subtask.setId(nextId);
+            nextId++;
+            subtasks.put(subtask.getId(), subtask);
+            subtask.setStatus(Status.NEW);
 
-        Epic epic = epics.get(subtask.getEpicId());
-        epic.addSubtaskId(subtask.getId());
-        updateStatusOfEpic(epic);
+            Epic epic = epics.get(subtask.getEpicId());
+            epic.addSubtaskId(subtask.getId());
+            updateStatusOfEpic(epic);
         }
     }
 
@@ -84,16 +85,16 @@ public class TaskManager {
     }
 
     //Получение списков задач:
-    public HashMap<Integer, Task> getSimpleTasks() {
-        return simpleTasks;
+    public ArrayList<Task> getSimpleTasks() {
+        return new ArrayList<>(simpleTasks.values());
     }
 
-    public HashMap<Integer, Subtask> getSubtasks() {
-        return subtasks;
+    public ArrayList<Subtask> getSubtasks() {
+        return new ArrayList<>(subtasks.values());
     }
 
-    public HashMap<Integer, Epic> getEpics() {
-        return epics;
+    public ArrayList<Epic> getEpics() {
+        return new ArrayList<>(epics.values());
     }
 
     //Удаление всех задач:
@@ -102,7 +103,7 @@ public class TaskManager {
     }
 
     public void deleteAllSubtasks() {
-        for (Epic epic: epics.values()) {
+        for (Epic epic : epics.values()) {
             deleteSubtasksOfEpic(epic.getId());
             updateStatusOfEpic(epic);
         }
@@ -114,15 +115,15 @@ public class TaskManager {
     }
 
     //Получение по идентификатору:
-    public Task getSimpleTaskById(int id){
+    public Task getSimpleTaskById(int id) {
         return simpleTasks.get(id);
     }
 
-    public Subtask getSubtaskById(int id){
+    public Subtask getSubtaskById(int id) {
         return subtasks.get(id);
     }
 
-    public Epic getEpicById(int id){
+    public Epic getEpicById(int id) {
         return epics.get(id);
     }
 

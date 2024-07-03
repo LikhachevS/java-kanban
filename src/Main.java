@@ -59,7 +59,7 @@ public class Main {
         System.out.println(subtask2OfEpic1.title + " " + taskManager.getSubtaskById(6).getStatus());
 
         //Проверка статуса эпика 1:
-        System.out.println(taskManager.getEpicById(3).title + " " + taskManager.getEpics().get(3).getStatus());
+        System.out.println(taskManager.getEpicById(3).title + " " + taskManager.getEpicById(3).getStatus());
 
         //Обновление статуса подзадач эпика 2:
         subtask1OfEpic2 = new Subtask("Подзадача 1, эпика 2", "Описание подзадачи 1, эпика 2",
@@ -68,7 +68,7 @@ public class Main {
         System.out.println(subtask1OfEpic2.title + " " + taskManager.getSubtaskById(7).getStatus());
 
         //Проверка статуса эпика 2:
-        System.out.println(taskManager.getEpicById(4).title + " " + taskManager.getEpics().get(4).getStatus());
+        System.out.println(taskManager.getEpicById(4).title + " " + taskManager.getEpicById(4).getStatus());
 
 
         //Удаление подзадачи 1 эпика 1:
