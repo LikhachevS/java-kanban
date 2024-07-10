@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Поехали!");
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = new InMemoryTaskManager();
 
         //Создание простых задач:
         Task simpleTask1 = new Task("Простая задача 1", "Описание простой задачи 1", 1, Status.NEW);
@@ -82,5 +82,11 @@ public class Main {
         System.out.println(taskManager.getEpics());
         //Вывод списка подзадач:
         System.out.println(taskManager.getSubtasks());
+
+        //Получение истоии просмотров:
+        System.out.println("История:");
+        for (Task task : taskManager.getHistory()) {
+            System.out.println(task);
+        }
     }
 }
