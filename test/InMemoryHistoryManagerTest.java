@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -6,24 +7,42 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class InMemoryHistoryManagerTest {
+    HistoryManager historyManager;
+    Task simpleTask1;
+    Epic epic1;
+    Subtask subtask1OfEpic1;
+
+    @BeforeEach
+    void BeforeEach() {
+        historyManager = Manager.getDefaultHistory();
+        simpleTask1 = new Task("Простая задача 1", "Описание простой задачи 1", 1, Status.NEW);
+        epic1 = new Epic("Эпик 1", "Описание эпика 1", 1, Status.NEW);
+        subtask1OfEpic1 = new Subtask("Подзадача 1, эпика 1", "Описание подзадачи 1, эпика 1",
+                1, Status.NEW, epic1.getId());
+    }
 
     @Test
     void testAdd() {
-        HistoryManager History = Manager.getDefaultHistory();
+        historyManager.add(simpleTask1);
+        historyManager.add(epic1);
+        historyManager.add(subtask1OfEpic1);
+        final List<Task> history = historyManager.getHistory();
+        assertNotNull(history, "История не пустая.");
+        assertEquals(3, history.size(), "История не пустая.");
+    }
+
+    @Test
+    void testGetHistory() {
         boolean correctly = false;
-        Task simpleTask1 = new Task("Простая задача 1", "Описание простой задачи 1", 1, Status.NEW);
-        Epic epic1 = new Epic("Эпик 1", "Описание эпика 1", 1, Status.NEW);
-        Subtask subtask1OfEpic1 = new Subtask("Подзадача 1, эпика 1", "Описание подзадачи 1, эпика 1",
-                1, Status.NEW, epic1.getId());
 
-        History.add(simpleTask1);
-        History.add(epic1);
-        History.add(subtask1OfEpic1);
+        historyManager.add(simpleTask1);
+        historyManager.add(epic1);
+        historyManager.add(subtask1OfEpic1);
 
-        List<Task> AllHistory = History.getHistory();
-        if (AllHistory.get(0) instanceof Task
-                && AllHistory.get(1) instanceof Epic
-                && AllHistory.get(2) instanceof Subtask) {
+        List<Task> history = historyManager.getHistory();
+        if (history.get(0) instanceof Task
+                && history.get(1) instanceof Epic
+                && history.get(2) instanceof Subtask) {
             correctly = true;
         }
 
@@ -31,6 +50,22 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void testGetHistory() {
+    void TestMaxSizeofHistory() {
+        //Добавляем двенадцать задач:
+        historyManager.add(simpleTask1);
+        historyManager.add(epic1);
+        historyManager.add(subtask1OfEpic1);
+        historyManager.add(simpleTask1);
+        historyManager.add(epic1);
+        historyManager.add(subtask1OfEpic1);
+        historyManager.add(simpleTask1);
+        historyManager.add(epic1);
+        historyManager.add(subtask1OfEpic1);
+        historyManager.add(simpleTask1);
+        historyManager.add(epic1);
+        historyManager.add(subtask1OfEpic1);
+
+        final List<Task> history = historyManager.getHistory();
+        assertEquals(10, history.size(), "История не пустая.");
     }
 }

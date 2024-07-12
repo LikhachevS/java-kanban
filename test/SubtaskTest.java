@@ -4,6 +4,48 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SubtaskTest {
 
+    @Test
+    void testGetId() {
+        int taskId = 2;
+        Subtask subtask1 = new Subtask("Подзадача 1, эпика 1", "Описание подзадачи 1, эпика 1",
+                taskId, Status.NEW, 1);
+        assertEquals(taskId, subtask1.getId(), "Возвращает правильное значение");
+    }
+
+    @Test
+    void testSetId() {
+        int taskId = 5;
+        Subtask subtask1 = new Subtask("Подзадача 1, эпика 1", "Описание подзадачи 1, эпика 1",
+                2, Status.NEW, 1);
+        subtask1.setId(taskId);
+        assertEquals(taskId, subtask1.getId(), "Возвращает правильное значение");
+    }
+
+    @Test
+    void testGetStatus() {
+        Subtask subtask1 = new Subtask("Подзадача 1, эпика 1", "Описание подзадачи 1, эпика 1",
+                2, Status.NEW, 1);
+        assertEquals(Status.NEW, subtask1.getStatus(), "Возвращает правильное значение");
+    }
+
+    @Test
+    void testSetStatus() {
+        Status status = Status.DONE;
+        Subtask subtask1 = new Subtask("Подзадача 1, эпика 1", "Описание подзадачи 1, эпика 1",
+                2, Status.NEW, 1);
+        subtask1.setStatus(status);
+        assertEquals(status, subtask1.getStatus(), "Возвращает правильное значение");
+    }
+
+    @Test
+    void testGetEpicId() {
+        int epicId = 1;
+        Subtask subtask1 = new Subtask("Подзадача 1, эпика 1", "Описание подзадачи 1, эпика 1",
+                2, Status.NEW, epicId);
+
+        assertEquals(epicId, subtask1.getEpicId(), "Возвращает правильное значение");
+    }
+
     //проверьте, что объект Subtask нельзя сделать своим же эпиком:
     @Test
     void testSubtaskAddIntoTheSameSubtask() {
