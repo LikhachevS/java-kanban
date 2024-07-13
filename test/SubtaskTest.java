@@ -1,4 +1,9 @@
+import Interfaces.TaskManager;
+import enams.Status;
 import org.junit.jupiter.api.Test;
+import serviceClass.Manager;
+import typesOfTask.Epic;
+import typesOfTask.Subtask;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,7 +51,7 @@ class SubtaskTest {
         assertEquals(epicId, subtask1.getEpicId(), "Возвращает правильное значение");
     }
 
-    //проверьте, что объект Subtask нельзя сделать своим же эпиком:
+    //проверьте, что объект typesOfTask.Subtask нельзя сделать своим же эпиком:
     @Test
     void testSubtaskAddIntoTheSameSubtask() {
         TaskManager taskManager = Manager.getDefault();

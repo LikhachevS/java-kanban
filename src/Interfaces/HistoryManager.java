@@ -1,3 +1,7 @@
+package Interfaces;
+
+import typesOfTask.Task;
+
 import java.util.List;
 
 public interface HistoryManager {

@@ -1,3 +1,9 @@
+package Interfaces;
+
+import typesOfTask.Epic;
+import typesOfTask.Subtask;
+import typesOfTask.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

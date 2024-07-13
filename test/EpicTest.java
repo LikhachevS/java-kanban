@@ -1,4 +1,9 @@
+import Interfaces.TaskManager;
+import enams.Status;
 import org.junit.jupiter.api.Test;
+import serviceClass.Manager;
+import typesOfTask.Epic;
+import typesOfTask.Subtask;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -57,7 +62,7 @@ class EpicTest {
         assertEquals(subtaskId, subtask1.getId(), "Возвращает правильное значение");
     }
 
-    //проверьте, что объект Epic нельзя добавить в самого себя в виде подзадачи:
+    //проверьте, что объект typesOfTask.Epic нельзя добавить в самого себя в виде подзадачи:
     @Test
     void testEpicAddIntoTheSameEpic1() {
         TaskManager taskManager = Manager.getDefault();

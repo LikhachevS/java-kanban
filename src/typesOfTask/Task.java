@@ -1,7 +1,11 @@
+package typesOfTask;
+
+import enams.Status;
+
 import java.util.Objects;
 
 public class Task {
-    protected String title;
+    public String title;
     protected String description;
     public int id;
     protected Status status;
@@ -29,7 +33,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "typesOfTask.Task{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +

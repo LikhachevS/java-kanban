@@ -1,3 +1,7 @@
+package typesOfTask;
+
+import enams.Status;
+
 public class Subtask extends Task {
     private int epicId;
 

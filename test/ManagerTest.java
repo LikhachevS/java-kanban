@@ -1,4 +1,9 @@
+import Interfaces.HistoryManager;
+import Interfaces.TaskManager;
 import org.junit.jupiter.api.Test;
+import serviceClass.Manager;
+import storage.InMemoryHistoryManager;
+import storage.InMemoryTaskManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;

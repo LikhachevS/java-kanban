@@ -1,3 +1,10 @@
+package serviceClass;
+
+import Interfaces.HistoryManager;
+import Interfaces.TaskManager;
+import storage.InMemoryHistoryManager;
+import storage.InMemoryTaskManager;
+
 public class Manager {
 
     public static TaskManager getDefault() {
