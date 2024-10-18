@@ -1,6 +1,6 @@
 package Interfaces;
 
-import typesOfTask.Task;
+import typesofTask.Task;
 
 import java.util.List;
 

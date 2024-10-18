@@ -1,9 +1,9 @@
 import Interfaces.TaskManager;
 import enams.Status;
 import storage.InMemoryTaskManager;
-import typesOfTask.Epic;
-import typesOfTask.Subtask;
-import typesOfTask.Task;
+import typesofTask.Epic;
+import typesofTask.Subtask;
+import typesofTask.Task;
 
 public class Main {
 

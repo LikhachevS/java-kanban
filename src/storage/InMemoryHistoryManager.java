@@ -1,7 +1,7 @@
 package storage;
 
 import Interfaces.HistoryManager;
-import typesOfTask.Task;
+import typesofTask.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;

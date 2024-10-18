@@ -3,10 +3,9 @@ import enams.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import serviceClass.Manager;
-import storage.InMemoryHistoryManager;
-import typesOfTask.Epic;
-import typesOfTask.Subtask;
-import typesOfTask.Task;
+import typesofTask.Epic;
+import typesofTask.Subtask;
+import typesofTask.Task;
 
 import java.util.List;
 
