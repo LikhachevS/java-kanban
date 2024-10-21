@@ -3,10 +3,10 @@ package storage;
 import interfaces.HistoryManager;
 import interfaces.TaskManager;
 import enams.Status;
-import serviceClasses.Manager;
-import typesTasks.Epic;
-import typesTasks.Subtask;
-import typesTasks.Task;
+import service.Manager;
+import tasks.Epic;
+import tasks.Subtask;
+import tasks.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;

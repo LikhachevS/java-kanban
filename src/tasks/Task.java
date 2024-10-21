@@ -1,4 +1,4 @@
-package typesTasks;
+package tasks;
 
 import enams.Status;
 

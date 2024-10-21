@@ -1,9 +1,9 @@
 import interfaces.TaskManager;
 import enams.Status;
 import org.junit.jupiter.api.Test;
-import serviceClasses.Manager;
-import typesTasks.Epic;
-import typesTasks.Subtask;
+import service.Manager;
+import tasks.Epic;
+import tasks.Subtask;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,4 +1,4 @@
-package serviceClasses;
+package service;
 
 import interfaces.HistoryManager;
 import interfaces.TaskManager;

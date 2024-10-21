@@ -1,7 +1,7 @@
 import interfaces.HistoryManager;
 import interfaces.TaskManager;
 import org.junit.jupiter.api.Test;
-import serviceClasses.Manager;
+import service.Manager;
 import storage.InMemoryHistoryManager;
 import storage.InMemoryTaskManager;
 

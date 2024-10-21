@@ -1,8 +1,8 @@
 package interfaces;
 
-import typesTasks.Epic;
-import typesTasks.Subtask;
-import typesTasks.Task;
+import tasks.Epic;
+import tasks.Subtask;
+import tasks.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
