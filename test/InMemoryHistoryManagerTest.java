@@ -2,7 +2,7 @@ import interfaces.HistoryManager;
 import enams.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import serviceClass.Manager;
+import serviceClasses.Manager;
 import typesTasks.Epic;
 import typesTasks.Subtask;
 import typesTasks.Task;
