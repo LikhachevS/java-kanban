@@ -4,9 +4,9 @@ import interfaces.HistoryManager;
 import interfaces.TaskManager;
 import enams.Status;
 import serviceClass.Manager;
-import typesofTask.Epic;
-import typesofTask.Subtask;
-import typesofTask.Task;
+import typesTasks.Epic;
+import typesTasks.Subtask;
+import typesTasks.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;

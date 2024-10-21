@@ -2,9 +2,9 @@ import enams.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import storage.InMemoryTaskManager;
-import typesofTask.Epic;
-import typesofTask.Subtask;
-import typesofTask.Task;
+import typesTasks.Epic;
+import typesTasks.Subtask;
+import typesTasks.Task;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;

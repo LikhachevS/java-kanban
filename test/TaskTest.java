@@ -1,7 +1,7 @@
 import enams.Status;
 import org.junit.jupiter.api.Test;
-import typesofTask.Epic;
-import typesofTask.Task;
+import typesTasks.Epic;
+import typesTasks.Task;
 
 import static org.junit.jupiter.api.Assertions.*;
 
