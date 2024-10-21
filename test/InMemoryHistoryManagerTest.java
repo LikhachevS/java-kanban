@@ -1,4 +1,4 @@
-import Interfaces.HistoryManager;
+import interfaces.HistoryManager;
 import enams.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

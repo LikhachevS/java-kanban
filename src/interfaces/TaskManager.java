@@ -1,4 +1,4 @@
-package Interfaces;
+package interfaces;
 
 import typesofTask.Epic;
 import typesofTask.Subtask;

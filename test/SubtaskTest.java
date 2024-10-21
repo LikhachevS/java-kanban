@@ -1,4 +1,4 @@
-import Interfaces.TaskManager;
+import interfaces.TaskManager;
 import enams.Status;
 import org.junit.jupiter.api.Test;
 import serviceClass.Manager;

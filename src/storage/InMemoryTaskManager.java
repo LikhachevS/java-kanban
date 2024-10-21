@@ -1,7 +1,7 @@
 package storage;
 
-import Interfaces.HistoryManager;
-import Interfaces.TaskManager;
+import interfaces.HistoryManager;
+import interfaces.TaskManager;
 import enams.Status;
 import serviceClass.Manager;
 import typesofTask.Epic;
