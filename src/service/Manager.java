@@ -1,7 +1,7 @@
-package serviceClass;
+package service;
 
-import Interfaces.HistoryManager;
-import Interfaces.TaskManager;
+import interfaces.HistoryManager;
+import interfaces.TaskManager;
 import storage.InMemoryHistoryManager;
 import storage.InMemoryTaskManager;
 

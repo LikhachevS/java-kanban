@@ -1,4 +1,5 @@
-package typesOfTask;
+package tasks;
+
 import enams.Status;
 
 import java.util.ArrayList;

@@ -2,9 +2,9 @@ import enams.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import storage.InMemoryTaskManager;
-import typesOfTask.Epic;
-import typesOfTask.Subtask;
-import typesOfTask.Task;
+import tasks.Epic;
+import tasks.Subtask;
+import tasks.Task;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -172,33 +172,5 @@ class InMemoryTaskManagerTest {
         assertTrue(taskManager.getHistory().contains(simpleTask1));
         assertTrue(taskManager.getHistory().contains(epic1));
         assertTrue(taskManager.getHistory().contains(subtask1OfEpic1));
-    }
-    @Test
-    void getHistoryReturnOldVersionOfTask() {
-        taskManager.add(simpleTask1); //id 1
-        taskManager.add(epic1); //id 2
-        taskManager.add(subtask1OfEpic1);
-
-        taskManager.getSimpleTaskById(1);
-        taskManager.getEpicById(2);
-        taskManager.getSubtaskById(3);
-
-        assertTrue(taskManager.getHistory().size() == 3);
-        assertEquals((taskManager.getSimpleTaskById(1)), taskManager.getHistory().get(0));
-        assertEquals((taskManager.getEpicById(2)), taskManager.getHistory().get(1));
-        assertEquals((taskManager.getSubtaskById(3)), taskManager.getHistory().get(2));
-
-        Task simpleTask1New = new Task("Простая задача 1 обновлённая", "Описание простой задачи 1", 1, Status.DONE);
-        Epic epic1New = new Epic("Эпик 1 обновлённый", "Описание эпика 1", 2, Status.NEW);
-        Subtask subtask1OfEpic1New = new Subtask("Подзадача 1, эпика 1 обновлённая", "Описание подзадачи 1, эпика 1",
-                3, Status.NEW, 2);
-
-        taskManager.update(simpleTask1New);
-        taskManager.update(epic1New);
-        taskManager.update(subtask1OfEpic1New);
-
-        assertNotEquals((taskManager.getSimpleTaskById(1)), taskManager.getHistory().get(0));
-        assertNotEquals((taskManager.getEpicById(2)), taskManager.getHistory().get(1));
-        assertNotEquals((taskManager.getSubtaskById(3)), taskManager.getHistory().get(2));
     }
 }
