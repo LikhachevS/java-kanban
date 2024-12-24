@@ -1,6 +1,7 @@
 package tasks;
 
 import enams.Status;
+import enams.TypesOfTasks;
 
 public class Subtask extends Task {
     private int epicId;
@@ -13,5 +14,8 @@ public class Subtask extends Task {
     public int getEpicId() {
         return epicId;
     }
+
+    @Override
+    public TypesOfTasks getType() {return TypesOfTasks.SUBTASK;}
 
 }

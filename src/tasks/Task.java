@@ -1,6 +1,7 @@
 package tasks;
 
 import enams.Status;
+import enams.TypesOfTasks;
 
 import java.util.Objects;
 
@@ -56,4 +57,6 @@ public class Task {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public TypesOfTasks getType() {return TypesOfTasks.TASK;}
 }
