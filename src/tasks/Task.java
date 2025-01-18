@@ -6,6 +6,7 @@ import enams.TypesOfTasks;
 import java.util.Objects;
 
 public class Task {
+
     public String title;
     protected String description;
     public int id;
@@ -50,6 +51,14 @@ public class Task {
         this.id = id;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public Status getStatus() {
         return status;
     }
@@ -58,5 +67,7 @@ public class Task {
         this.status = status;
     }
 
-    public TypesOfTasks getType() {return TypesOfTasks.TASK;}
+    public TypesOfTasks getType() {
+        return TypesOfTasks.TASK;
+    }
 }

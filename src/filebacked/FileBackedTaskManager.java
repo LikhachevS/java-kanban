@@ -2,12 +2,12 @@ package filebacked;
 
 import enams.Status;
 import enams.TypesOfTasks;
-import service.Manager;
 import storage.InMemoryTaskManager;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -32,7 +32,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             throw new RuntimeException(e);
         }
         for (String line : lines) {
-            Task task = fromString(line);
+            Task task = taskFromString(line);
             if (task.getType() == TypesOfTasks.TASK) {
                 simpleTasks.put(task.getId(), task);
             } else if (task.getType() == TypesOfTasks.EPIC) {
@@ -72,15 +72,72 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
 
         // Выводим результат
+        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+            for (Task task : result) {
+                writer.write(taskToString(task));
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    String toString(Task task) {
+    String taskToString(Task task) {
+        String taskAsString = switch (task.getType()) {
+            case TASK, EPIC -> task.getId() + "," +
+                    task.getType() + "," +
+                    task.getTitle() + "," +
+                    task.getStatus() + "," +
+                    task.getDescription();
+            case SUBTASK -> task.getId() + "," +
+                    task.getType() + "," +
+                    task.getTitle() + "," +
+                    task.getStatus() + "," +
+                    task.getDescription() + "," +
+                    ((Subtask) task).getEpicId();
+        };
 
-        return "";
+        return taskAsString;
     }
 
-    Task fromString(String value) {
-
-        return null;
+    Task taskFromString(String taskAsString) {
+        Task task;
+        int id;
+        String title;
+        Status status;
+        String description;
+        int epicId;
+        String[] parts = taskAsString.split(",");
+            switch (parts[1]) {
+                case "TASK":
+                    id = Integer.parseInt(parts[0]);
+                    title = parts[2];
+                    status = Status.valueOf(parts[3]);
+                    description = parts[4];
+                    task = new Task(title, description, id, status);
+                    break;
+                case "EPIC":
+                    id = Integer.parseInt(parts[0]);
+                    title = parts[2];
+                    status = Status.valueOf(parts[3]);
+                    description = parts[4];
+                    task = new Epic(title, description, id, status);
+                    break;
+                case "SUBTASK":
+                    id = Integer.parseInt(parts[0]);
+                    title = parts[2];
+                    status = Status.valueOf(parts[3]);
+                    description = parts[4];
+                    epicId = Integer.parseInt(parts[5]);
+                    task = new Subtask(title, description, id, status, epicId);
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + parts[1]);
+            }
+            
+        return task;
     }
+
 }
+
+
