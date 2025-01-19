@@ -22,7 +22,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         this.path = path;
     }
 
-    public void loadFromFile() {
+    //Данный метод возвращает менеджер с загруженной информацией о задачах в оперативную память из ссылки
+    public static FileBackedTaskManager loadFromFile(Path path) {
+        FileBackedTaskManager manager = new FileBackedTaskManager(path);
         List<String> lines = new ArrayList<>();
         try {
             String fileContent = Files.readString(path, StandardCharsets.UTF_8);
@@ -34,13 +36,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         for (String line : lines) {
             Task task = taskFromString(line);
             if (task.getType() == TypesOfTasks.TASK) {
-                simpleTasks.put(task.getId(), task);
+                manager.simpleTasks.put(task.getId(), task);
             } else if (task.getType() == TypesOfTasks.EPIC) {
-                epics.put(task.getId(), (Epic) task);
+                manager.epics.put(task.getId(), (Epic) task);
             } else if (task.getType() == TypesOfTasks.SUBTASK) {
-                subtasks.put(task.getId(), (Subtask) task);
+                manager.subtasks.put(task.getId(), (Subtask) task);
             }
+            //теперь нужно в каждый эпик добавить айдишники соответствующих ему сабтасков,
+            //так как эту информацию мы не записывали, но её можно восстановить из сабтасков (онихранят айдишники своих эпиков)
         }
+        return manager;
     }
 
     @Override
@@ -82,7 +87,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    String taskToString(Task task) {
+    private static String taskToString(Task task) {
         String taskAsString = switch (task.getType()) {
             case TASK, EPIC -> task.getId() + "," +
                     task.getType() + "," +
@@ -100,7 +105,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return taskAsString;
     }
 
-    Task taskFromString(String taskAsString) {
+    private static Task taskFromString(String taskAsString) {
         Task task;
         int id;
         String title;
