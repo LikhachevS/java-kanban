@@ -2,6 +2,7 @@ package filebacked;
 
 import enams.Status;
 import enams.TypesOfTasks;
+import exception.ManagerSaveException;
 import storage.InMemoryTaskManager;
 import tasks.Epic;
 import tasks.Subtask;
@@ -43,7 +44,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 manager.subtasks.put(task.getId(), (Subtask) task);
             }
             //теперь нужно в каждый эпик добавить айдишники соответствующих ему сабтасков,
-            //так как эту информацию мы не записывали, но её можно восстановить из сабтасков (онихранят айдишники своих эпиков)
+            //так как эту информацию мы не записывали, но её можно восстановить из сабтасков (они хранят айдишники своих эпиков)
+            for (Subtask subtask : manager.subtasks.values()) {
+                manager.epics.get(subtask.getEpicId()).addSubtaskId(subtask.getId());
+            }
         }
         return manager;
     }
@@ -78,12 +82,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         // Выводим результат
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-            for (Task task : result) {
-                writer.write(taskToString(task));
+            try {
+                writer.write("id,type,name,status,description,epic");
                 writer.newLine();
+                    for (Task task : result) {
+                        writer.write(taskToString(task));
+                        writer.newLine();
+                    }
+            } catch (IOException e) {
+                throw new ManagerSaveException("Ошибка при записи в файл");
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ManagerSaveException("По данному пути нет файла для записи");
         }
     }
 
