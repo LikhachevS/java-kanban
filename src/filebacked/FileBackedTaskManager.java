@@ -36,6 +36,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
         for (String line : lines) {
             Task task = taskFromString(line);
+            if (task.getId() > manager.nextId) {
+                manager.nextId ++;
+            }
             if (task.getType() == TypesOfTasks.TASK) {
                 manager.simpleTasks.put(task.getId(), task);
             } else if (task.getType() == TypesOfTasks.EPIC) {
