@@ -16,6 +16,8 @@ public class Subtask extends Task {
     }
 
     @Override
-    public TypesOfTasks getType() {return TypesOfTasks.SUBTASK;}
+    public TypesOfTasks getType() {
+        return TypesOfTasks.SUBTASK;
+    }
 
 }
