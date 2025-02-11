@@ -93,14 +93,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 id = Integer.parseInt(parts[0]);
                 title = parts[2];
                 status = Status.valueOf(parts[3]);
-                description = parts[4];
+                description = parts[4].trim();
                 task = new Task(title, description, id, status);
                 break;
             case "EPIC":
                 id = Integer.parseInt(parts[0]);
                 title = parts[2];
                 status = Status.valueOf(parts[3]);
-                description = parts[4];
+                description = parts[4].trim();
                 task = new Epic(title, description, id, status);
                 break;
             case "SUBTASK":
@@ -108,7 +108,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 title = parts[2];
                 status = Status.valueOf(parts[3]);
                 description = parts[4];
-                epicId = Integer.parseInt(parts[5]);
+                epicId = Integer.parseInt(parts[5].trim());
                 task = new Subtask(title, description, id, status, epicId);
                 break;
             default:
@@ -129,9 +129,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        for (String line : lines) {
-            Task task = taskFromString(line);
-            if (task.getId() > manager.nextId) {
+        for (int i = 1; i < lines.size(); i++) {
+            Task task = taskFromString(lines.get(i));
+            if (task.getId() >= manager.nextId) {
                 manager.nextId++;
             }
             if (task.getType() == TypesOfTasks.TASK) {
