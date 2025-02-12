@@ -23,101 +23,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         this.path = path;
     }
 
-    private void save() {
-        // Формируем общий список ключей (идентификаторов)
-        List<Integer> keys = new ArrayList<>();
-        keys.addAll(simpleTasks.keySet());
-        keys.addAll(subtasks.keySet());
-        keys.addAll(epics.keySet());
-
-        // Сортируем ключи по числовому значению
-        Collections.sort(keys);
-
-        // Проходим по каждому ключу и собираем значения из всех трех HashMap
-        List<Task> result = new ArrayList<>();
-        for (int key : keys) {
-            if (simpleTasks.containsKey(key)) {
-                result.add(simpleTasks.get(key));
-            } else if (subtasks.containsKey(key)) {
-                result.add(subtasks.get(key));
-            } else if (epics.containsKey(key)) {
-                result.add(epics.get(key));
-            }
-        }
-
-        // Выводим результат
-        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-            try {
-                writer.write("id,type,name,status,description,epic");
-                writer.newLine();
-                for (Task task : result) {
-                    writer.write(taskToString(task));
-                    writer.newLine();
-                }
-            } catch (IOException e) {
-                throw new ManagerSaveException("Ошибка при записи в файл");
-            }
-        } catch (IOException e) {
-            throw new ManagerSaveException("По данному пути нет файла для записи");
-        }
-    }
-
-    private static String taskToString(Task task) {
-        String taskAsString = switch (task.getType()) {
-            case TASK, EPIC -> task.getId() + "," +
-                    task.getType() + "," +
-                    task.getTitle() + "," +
-                    task.getStatus() + "," +
-                    task.getDescription();
-            case SUBTASK -> task.getId() + "," +
-                    task.getType() + "," +
-                    task.getTitle() + "," +
-                    task.getStatus() + "," +
-                    task.getDescription() + "," +
-                    ((Subtask) task).getEpicId();
-        };
-
-        return taskAsString;
-    }
-
-    private static Task taskFromString(String taskAsString) {
-        Task task;
-        int id;
-        String title;
-        Status status;
-        String description;
-        int epicId;
-        String[] parts = taskAsString.split(",");
-        switch (parts[1]) {
-            case "TASK":
-                id = Integer.parseInt(parts[0]);
-                title = parts[2];
-                status = Status.valueOf(parts[3]);
-                description = parts[4].trim();
-                task = new Task(title, description, id, status);
-                break;
-            case "EPIC":
-                id = Integer.parseInt(parts[0]);
-                title = parts[2];
-                status = Status.valueOf(parts[3]);
-                description = parts[4].trim();
-                task = new Epic(title, description, id, status);
-                break;
-            case "SUBTASK":
-                id = Integer.parseInt(parts[0]);
-                title = parts[2];
-                status = Status.valueOf(parts[3]);
-                description = parts[4];
-                epicId = Integer.parseInt(parts[5].trim());
-                task = new Subtask(title, description, id, status, epicId);
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + parts[1]);
-        }
-
-        return task;
-    }
-
     //Данный метод возвращает менеджер с загруженной информацией о задачах в оперативную память из ссылки
     public static FileBackedTaskManager loadFromFile(Path path) {
         FileBackedTaskManager manager = new FileBackedTaskManager(path);
@@ -220,6 +125,92 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public void deleteEpicById(int id) {
         super.deleteEpicById(id);
         save();
+    }
+
+    private void save() {
+        // Формируем общий список ключей (идентификаторов)
+        List<Integer> keys = new ArrayList<>();
+        keys.addAll(simpleTasks.keySet());
+        keys.addAll(subtasks.keySet());
+        keys.addAll(epics.keySet());
+
+        // Сортируем ключи по числовому значению
+        Collections.sort(keys);
+
+        // Проходим по каждому ключу и собираем значения из всех трех HashMap
+        List<Task> result = new ArrayList<>();
+        for (int key : keys) {
+            if (simpleTasks.containsKey(key)) {
+                result.add(simpleTasks.get(key));
+            } else if (subtasks.containsKey(key)) {
+                result.add(subtasks.get(key));
+            } else if (epics.containsKey(key)) {
+                result.add(epics.get(key));
+            }
+        }
+
+        // Выводим результат
+        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+            writer.write("id,type,name,status,description,epic");
+            writer.newLine();
+            for (Task task : result) {
+                writer.write(taskToString(task));
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new ManagerSaveException("По данному пути нет файла для записи");
+        }
+    }
+
+    private static String taskToString(Task task) {
+        String taskAsString = switch (task.getType()) {
+            case TASK, EPIC -> task.getId() + "," +
+                    task.getType() + "," +
+                    task.getTitle() + "," +
+                    task.getStatus() + "," +
+                    task.getDescription();
+            case SUBTASK -> task.getId() + "," +
+                    task.getType() + "," +
+                    task.getTitle() + "," +
+                    task.getStatus() + "," +
+                    task.getDescription() + "," +
+                    ((Subtask) task).getEpicId();
+        };
+
+        return taskAsString;
+    }
+
+    private static Task taskFromString(String taskAsString) {
+        Task task;
+        String[] parts = taskAsString.split(",");
+        switch (parts[1]) {
+            case "TASK":
+                int id = Integer.parseInt(parts[0]);
+                String title = parts[2];
+                Status status = Status.valueOf(parts[3]);
+                String description = parts[4].trim();
+                task = new Task(title, description, id, status);
+                break;
+            case "EPIC":
+                id = Integer.parseInt(parts[0]);
+                title = parts[2];
+                status = Status.valueOf(parts[3]);
+                description = parts[4].trim();
+                task = new Epic(title, description, id, status);
+                break;
+            case "SUBTASK":
+                id = Integer.parseInt(parts[0]);
+                title = parts[2];
+                status = Status.valueOf(parts[3]);
+                description = parts[4];
+                int epicId = Integer.parseInt(parts[5].trim());
+                task = new Subtask(title, description, id, status, epicId);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + parts[1]);
+        }
+
+        return task;
     }
 }
 
