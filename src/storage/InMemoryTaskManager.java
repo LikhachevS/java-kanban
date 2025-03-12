@@ -159,24 +159,24 @@ public class InMemoryTaskManager implements TaskManager {
 
     private void updateTimeOfEpic(Epic epic) {
         ArrayList<Integer> subtaskIdsOfEpic = epic.getSubtaskIds();
-        Duration EpicDuration;
-        LocalDateTime EpicStartTime = subtasks.get(subtaskIdsOfEpic.getFirst()).getStartTime();
-        LocalDateTime EpicEndTime = subtasks.get(subtaskIdsOfEpic.getFirst()).getEndTime();
+        Duration epicDuration;
+        LocalDateTime epicStartTime = subtasks.get(subtaskIdsOfEpic.getFirst()).getStartTime();
+        LocalDateTime epicEndTime = subtasks.get(subtaskIdsOfEpic.getFirst()).getEndTime();
         ;
 
         for (Integer subtaskId : subtaskIdsOfEpic) {
-            if (EpicStartTime.isAfter(subtasks.get(subtaskId).getStartTime())) {
-                EpicStartTime = subtasks.get(subtaskId).getStartTime();
+            if (epicStartTime.isAfter(subtasks.get(subtaskId).getStartTime())) {
+                epicStartTime = subtasks.get(subtaskId).getStartTime();
             }
-            if (EpicEndTime.isBefore(subtasks.get(subtaskId).getEndTime())) {
-                EpicStartTime = subtasks.get(subtaskId).getStartTime();
+            if (epicEndTime.isBefore(subtasks.get(subtaskId).getEndTime())) {
+                epicStartTime = subtasks.get(subtaskId).getStartTime();
             }
         }
 
-        EpicDuration = Duration.between(EpicStartTime, EpicEndTime);
+        epicDuration = Duration.between(epicStartTime, epicEndTime);
 
-        epic.setStartTime(EpicStartTime);
-        epic.setTaskDuration(EpicDuration);
+        epic.setStartTime(epicStartTime);
+        epic.setTaskDuration(epicDuration);
     }
 
     //Получение списков задач:
