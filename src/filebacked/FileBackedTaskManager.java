@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
@@ -168,13 +170,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     task.getType() + "," +
                     task.getTitle() + "," +
                     task.getStatus() + "," +
-                    task.getDescription();
+                    task.getDescription() + "," +
+                    task.getStartTime() + "," +
+                    task.gettaskDuration();
             case SUBTASK -> task.getId() + "," +
                     task.getType() + "," +
                     task.getTitle() + "," +
                     task.getStatus() + "," +
                     task.getDescription() + "," +
-                    ((Subtask) task).getEpicId();
+                    ((Subtask) task).getEpicId() + "," +
+                    task.getStartTime() + "," +
+                    task.gettaskDuration();
         };
 
         return taskAsString;
@@ -189,22 +195,28 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 String title = parts[2];
                 Status status = Status.valueOf(parts[3]);
                 String description = parts[4].trim();
-                task = new Task(title, description, id, status);
+                LocalDateTime startTime = LocalDateTime.parse(parts[5]);
+                Duration duration = Duration.parse(parts[6].trim());
+                task = new Task(title, description, id, status, startTime, duration);
                 break;
             case "EPIC":
                 id = Integer.parseInt(parts[0]);
                 title = parts[2];
                 status = Status.valueOf(parts[3]);
                 description = parts[4].trim();
-                task = new Epic(title, description, id, status);
+                startTime = LocalDateTime.parse(parts[5]);
+                duration = Duration.parse(parts[6].trim());
+                task = new Epic(title, description, id, status, startTime, duration);
                 break;
             case "SUBTASK":
                 id = Integer.parseInt(parts[0]);
                 title = parts[2];
                 status = Status.valueOf(parts[3]);
-                description = parts[4];
-                int epicId = Integer.parseInt(parts[5].trim());
-                task = new Subtask(title, description, id, status, epicId);
+                description = parts[4].trim();
+                int epicId = Integer.parseInt(parts[5]);
+                startTime = LocalDateTime.parse(parts[6]);
+                duration = Duration.parse(parts[7].trim());
+                task = new Subtask(title, description, id, status, epicId, startTime, duration);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + parts[1]);
