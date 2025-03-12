@@ -5,6 +5,9 @@ import service.Manager;
 import tasks.Epic;
 import tasks.Subtask;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SubtaskTest {
@@ -60,7 +63,7 @@ class SubtaskTest {
         taskManager.add(epic1);
 
         Subtask subtask1 = new Subtask("Подзадача 1, эпика 1", "Описание подзадачи 1, эпика 1",
-                1, Status.NEW, 1);
+                1, Status.NEW, 1, LocalDateTime.now().plusHours(5), Duration.ofHours(1));
         taskManager.add(subtask1);
 
         //Создаём ещё одну подзадачу, с такими же полями. Полю epicid присваеваем значение id subtask1.

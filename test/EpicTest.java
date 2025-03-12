@@ -5,6 +5,9 @@ import service.Manager;
 import tasks.Epic;
 import tasks.Subtask;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -71,7 +74,7 @@ class EpicTest {
         taskManager.add(epic1);
 
         Subtask subtask1 = new Subtask("Подзадача 1, эпика 1", "Описание подзадачи 1, эпика 1",
-                1, Status.NEW, epic1.getId());
+                1, Status.NEW, epic1.getId(), LocalDateTime.now().plusHours(5), Duration.ofHours(1));
         taskManager.add(subtask1);
 
         //Создаём Эпик 2, который имеет поля идентичные эпику 1, но id 2. Добавляем его через метод update в менеджер:
