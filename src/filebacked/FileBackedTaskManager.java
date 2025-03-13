@@ -48,8 +48,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             } else if (task.getType() == TypesOfTasks.SUBTASK) {
                 manager.subtasks.put(task.getId(), (Subtask) task);
             }
-            //теперь нужно в каждый эпик добавить айдишники соответствующих ему сабтасков,
-            //так как эту информацию мы не записывали, но её можно восстановить из сабтасков (они хранят айдишники своих эпиков)
             for (Subtask subtask : manager.subtasks.values()) {
                 manager.epics.get(subtask.getEpicId()).addSubtaskId(subtask.getId());
             }

@@ -21,7 +21,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected HashMap<Integer, Epic> epics;
     protected HistoryManager historyManager;
     protected TreeSet<Task> prioritizedTasks;
-    Comparator<Task> comparator;
+    protected Comparator<Task> comparator;
 
     public InMemoryTaskManager() {
         simpleTasks = new HashMap<>();
@@ -82,14 +82,11 @@ public class InMemoryTaskManager implements TaskManager {
     public void update(Task simpleTask) {
         if (!subtasks.containsKey(simpleTask.getId()) && !epics.containsKey(simpleTask.getId())
                 && simpleTasks.containsKey(simpleTask.getId())) {
-            //Уберём старую задачу из приоритезированного списка, чтобы проверить, пересекается ли её новый экземпляр
-            //по времени с другими задачами
             prioritizedTasks.remove(simpleTasks.get(simpleTask.getId()));
             if (prioritizedTasks.stream()
                     .anyMatch(existingTask -> isOverlapping(existingTask, simpleTask))) {
-                //Вернём старую задачу обратно в приоритезированный список если новый экземпляр пересекается по времени
+
                 prioritizedTasks.add(simpleTasks.get(simpleTask.getId()));
-                //И выкинем ошибку
                 throw new RuntimeException("Новая задача пересекается с существующей задачей по времени выполнения.");
             }
             prioritizedTasks.add(simpleTask);
@@ -112,14 +109,11 @@ public class InMemoryTaskManager implements TaskManager {
     public void update(Subtask subtask) {
         if (!epics.containsKey(subtask.getId()) && !simpleTasks.containsKey(subtask.getId())
                 && subtasks.containsKey(subtask.getId())) {
-            //Уберём старую задачу из приоритезированного списка, чтобы проверить, пересекается ли её новый экземпляр
-            //по времени с другими задачами
             prioritizedTasks.remove(subtasks.get(subtask.getId()));
             if (prioritizedTasks.stream()
                     .anyMatch(existingTask -> isOverlapping(existingTask, subtask))) {
-                //Вернём старую задачу обратно в приоритезированный список если новый экземпляр пересекается по времени
+
                 prioritizedTasks.add(subtasks.get(subtask.getId()));
-                //И выкинем ошибку
                 throw new RuntimeException("Новая задача пересекается с существующей задачей по времени выполнения.");
             }
             prioritizedTasks.add(subtask);
@@ -162,7 +156,6 @@ public class InMemoryTaskManager implements TaskManager {
         Duration epicDuration;
         LocalDateTime epicStartTime = subtasks.get(subtaskIdsOfEpic.getFirst()).getStartTime();
         LocalDateTime epicEndTime = subtasks.get(subtaskIdsOfEpic.getFirst()).getEndTime();
-        ;
 
         for (Integer subtaskId : subtaskIdsOfEpic) {
             if (epicStartTime.isAfter(subtasks.get(subtaskId).getStartTime())) {
@@ -290,5 +283,4 @@ public class InMemoryTaskManager implements TaskManager {
         // Если конец первой задачи раньше начала второй или конец второй задачи раньше начала первой, то пересечения нет
         return !(task1.getEndTime().isBefore(task2.startTime) || task2.getEndTime().isBefore(task1.startTime));
     }
-
 }
