@@ -56,4 +56,6 @@ public interface TaskManager {
 
     //Получение истоии просмотров:
     List<Task> getHistory();
+
+    int getNextId();
 }
