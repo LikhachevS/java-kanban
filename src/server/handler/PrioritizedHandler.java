@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 public class PrioritizedHandler extends BaseHttpHandler implements HttpHandler {
-    enum Endpoint {GET_PRIORITIZED, UNKNOWN}
+    enum Endpoint { GET_PRIORITIZED, UNKNOWN }
 
     private final TaskManager taskManager;
     private final Gson gson;

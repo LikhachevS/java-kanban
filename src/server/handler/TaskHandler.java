@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class TaskHandler extends BaseHttpHandler implements HttpHandler {
-    enum Endpoint {GET_All, GET_BY_ID, POST, DELETE, UNKNOWN}
+    enum Endpoint { GET_All, GET_BY_ID, POST, DELETE, UNKNOWN }
 
     private final TaskManager taskManager;
     private final Gson gson;
@@ -38,13 +38,13 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
 
         switch (endpoint) {
             case GET_All: {
-                ArrayList<Task> AllTasks = taskManager.getSimpleTasks();
-                if (AllTasks.isEmpty()) {
+                ArrayList<Task> allTasks = taskManager.getSimpleTasks();
+                if (allTasks.isEmpty()) {
                     sendNotFound(exchange);
                     break;
                 }
-                String AllTasksJsonString = gson.toJson(AllTasks);
-                sendText(exchange, AllTasksJsonString);
+                String allTasksJsonString = gson.toJson(allTasks);
+                sendText(exchange, allTasksJsonString);
                 break;
             }
             case GET_BY_ID: {

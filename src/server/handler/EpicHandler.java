@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EpicHandler extends BaseHttpHandler implements HttpHandler {
-    enum Endpoint {GET_All, GET_BY_ID, GET_SUBTASKS, POST, DELETE, UNKNOWN}
+    enum Endpoint { GET_All, GET_BY_ID, GET_SUBTASKS, POST, DELETE, UNKNOWN }
 
     private final TaskManager taskManager;
     private final Gson gson;
@@ -38,13 +38,13 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
 
         switch (endpoint) {
             case GET_All: {
-                ArrayList<Epic> AllEpic = taskManager.getEpics();
-                if (AllEpic.isEmpty()) {
+                ArrayList<Epic> allEpic = taskManager.getEpics();
+                if (allEpic.isEmpty()) {
                     sendNotFound(exchange);
                     break;
                 }
-                String AllEpicsJsonString = gson.toJson(AllEpic);
-                sendText(exchange, AllEpicsJsonString);
+                String allEpicsJsonString = gson.toJson(allEpic);
+                sendText(exchange, allEpicsJsonString);
                 break;
             }
             case GET_BY_ID: {
@@ -72,10 +72,10 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
                     sendNotFound(exchange);
                     break;
                 }
-                List<Subtask> SubtasksOfEpic = new ArrayList<>(taskManager.getSubtasksOfEpic(epic.getId()).values());
+                List<Subtask> subtasksOfEpic = new ArrayList<>(taskManager.getSubtasksOfEpic(epic.getId()).values());
 
-                String SubtasksOfEpicJsonString = gson.toJson(SubtasksOfEpic);
-                sendText(exchange, SubtasksOfEpicJsonString);
+                String subtasksOfEpicJsonString = gson.toJson(subtasksOfEpic);
+                sendText(exchange, subtasksOfEpicJsonString);
                 break;
             }
             case POST: {
