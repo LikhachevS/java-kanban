@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class HistoryHandler extends BaseHttpHandler implements HttpHandler {
-    enum Endpoint {GET_HISTORY, UNKNOWN}
+    enum Endpoint { GET_HISTORY, UNKNOWN }
 
     private final TaskManager taskManager;
     private final Gson gson;
