@@ -7,6 +7,7 @@ import tasks.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeSet;
 
 public interface TaskManager {
     // Создание задач
@@ -56,6 +57,9 @@ public interface TaskManager {
 
     //Получение истоии просмотров:
     List<Task> getHistory();
+
+    //Получение приоритезированного списка:
+    TreeSet<Task> getPrioritizedTasks();
 
     int getNextId();
 }

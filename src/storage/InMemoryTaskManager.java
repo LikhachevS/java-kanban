@@ -213,20 +213,29 @@ public class InMemoryTaskManager implements TaskManager {
     //Получение по идентификатору:
     @Override
     public Task getSimpleTaskById(int id) {
-        historyManager.add(simpleTasks.get(id));
-        return simpleTasks.get(id);
+        if (simpleTasks.containsKey(id)) {
+            historyManager.add(simpleTasks.get(id));
+            return simpleTasks.get(id);
+        }
+        return null;
     }
 
     @Override
     public Subtask getSubtaskById(int id) {
-        historyManager.add(subtasks.get(id));
-        return subtasks.get(id);
+        if (subtasks.containsKey(id)) {
+            historyManager.add(subtasks.get(id));
+            return subtasks.get(id);
+        }
+        return null;
     }
 
     @Override
     public Epic getEpicById(int id) {
-        historyManager.add(epics.get(id));
-        return epics.get(id);
+        if (epics.containsKey(id)) {
+            historyManager.add(epics.get(id));
+            return epics.get(id);
+        }
+        return null;
     }
 
     //Удаление по идентификатору:
@@ -254,6 +263,9 @@ public class InMemoryTaskManager implements TaskManager {
     //Получение подзадач эпика по его id:
     @Override
     public HashMap<Integer, Subtask> getSubtasksOfEpic(int id) {
+        if (epics.get(id).getSubtaskIds().isEmpty()) {
+            return null;
+        }
         return (HashMap<Integer, Subtask>) epics.get(id).getSubtaskIds().stream()
                 .collect(Collectors.toMap(Function.identity(), subtasks::get));
 
@@ -272,6 +284,11 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
+    }
+
+    @Override
+    public TreeSet<Task> getPrioritizedTasks() {
+        return prioritizedTasks;
     }
 
     //@Override
